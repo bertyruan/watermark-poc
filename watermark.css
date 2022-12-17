@@ -15,7 +15,21 @@ em {
     color: red;
 }
 
-img {
-    width: 50%;
+.media-container {
     margin: auto;
+    display: grid; /* imperative */
+    width: 50%;
+    min-width: 250px;
 }
+
+.media-container > * { /* imperative */
+    width: 100%; 
+    height: 100%;
+    grid-column: 1 / 1;
+    grid-row: 1 / 1;
+}
+
+canvas {
+    background-color: rgba(10,314,10, 0.4);
+}
+
