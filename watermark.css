@@ -23,13 +23,15 @@ em {
 }
 
 .media-container > * { /* imperative */
-    width: 100%; 
-    height: 100%;
+    justify-self: center;
     grid-column: 1 / 1;
     grid-row: 1 / 1;
 }
 
+/* .media-container > :not(canvas) */
+
 canvas {
     background-color: rgba(10,314,10, 0.4);
+ 
 }
 
