@@ -5,52 +5,62 @@ function init() {
 class Text {
     constructor(ctx, content) {
         this.ctx = ctx;
-        this.x = 0;
-        this.y = 0;
-        this.xv = 1;
-        this.yv = 1;
+        this.ctx.textBaseline = "bottom";
+        this.x = 1000000;
+        this.y = 1000000;
         this.font = {
             size: 28,
-            family: 'sans'
+            family: 'sans',
+            color: 'red'
         }
-        this.color = 'red';
         this.content = content;
+        this.padding = 5;
+
+        this.setFont(this.font);
+        this.textWidth = this.getTextWidth();
+
+        this.boundText();
+    }
+
+    setFont(font) {
+        this.ctx.fillStyle = font.color;
+        this.ctx.font = `${font.size}px ${font.family}`;
+    }
+
+    getTextWidth() {
+        return this.ctx.measureText(this.content).actualBoundingBoxRight + this.ctx.measureText(this.content).actualBoundingBoxLeft;
+    }
+
+    boundText() {
         if (this.y < this.font.size) {
             this.y = this.font.size;
+        }
+        if (this.y > height) {
+            this.y = height - this.padding;
+        }
+        if (this.x < this.padding) {
+            this.x = this.padding;
+        }
+        if (this.x > 225 - this.textWidth) {
+            this.x = width - this.textWidth - this.padding;
         }
     }
 
     draw() {
-        this.ctx.fillStyle = this.color;
-        this.ctx.font = `${this.font.size}px ${this.font.family}`;
         this.ctx.fillText(this.content, this.x, this.y);
-        this.moveX();
-        this.moveY();
     }
 
-    moveX() {
-        if(this.x <= width && this.y <= height) {
-            this.x += this.xv;
-        } else {
-            this.x = 0;//-1 * this.ctx.measureText(this.content).width;
-        }
-        console.log(this.x);
-    }
-
-    moveY() {
-        if(this.x <= width && this.y <= height) {
-            this.y += this.yv;
-        } else {
-            this.y = -1 * this.font.size;
-        }
-
+    newPos() {
+        const x = Math.random() * height;
+        const y = Math.random() * width;
     }
 }
 
 const ctx = document.getElementById("watermark").getContext("2d");
+const width = 225;
+const height = 225;
 const rawr = new Text(ctx, 'rawr');
-const width = 255;
-const height = 255;
+
 
 
 
