@@ -3,7 +3,8 @@ function init() {
 }
 
 class Text {
-    constructor(content) {
+    constructor(ctx, content) {
+        this.ctx = ctx;
         this.x = 0;
         this.y = 0;
         this.xv = 1;
@@ -20,27 +21,41 @@ class Text {
     }
 
     draw() {
-        ctx.fillStyle = this.color;
-        ctx.font = `${this.font.size}px ${this.font.family}`;
-        ctx.fillText(this.content, this.x, this.y);
-        this.move('x');
-        this.move('y');
+        this.ctx.fillStyle = this.color;
+        this.ctx.font = `${this.font.size}px ${this.font.family}`;
+        this.ctx.fillText(this.content, this.x, this.y);
+        this.moveX();
+        this.moveY();
     }
 
-    move(axis) {
-        if(this.x <= 255) {
-            this[axis] += this.xv;
+    moveX() {
+        if(this.x <= width && this.y <= height) {
+            this.x += this.xv;
         } else {
-            this[axis] = -1 * ctx.measureText(this.content).width;
+            this.x = 0;//-1 * this.ctx.measureText(this.content).width;
         }
+        console.log(this.x);
+    }
+
+    moveY() {
+        if(this.x <= width && this.y <= height) {
+            this.y += this.yv;
+        } else {
+            this.y = -1 * this.font.size;
+        }
+
     }
 }
 
 const ctx = document.getElementById("watermark").getContext("2d");
-const rawr = new Text('rawr');
+const rawr = new Text(ctx, 'rawr');
+const width = 255;
+const height = 255;
+
+
 
 function draw() {
-    ctx.clearRect(0,0,225,225);
+    ctx.clearRect(0,0,width,height);
     rawr.draw();
 
     window.requestAnimationFrame(draw);
