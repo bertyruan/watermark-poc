@@ -4,22 +4,20 @@ function init() {
 
 class Text {
     constructor(ctx, content) {
+        this.content = content;
         this.ctx = ctx;
         this.ctx.textBaseline = "bottom";
-        this.x = 1000000;
-        this.y = 1000000;
+        this.x = 0;
+        this.y = 0;
         this.font = {
             size: 28,
             family: 'sans',
             color: 'red'
         }
-        this.content = content;
         this.padding = 5;
 
         this.setFont(this.font);
         this.textWidth = this.getTextWidth();
-
-        this.boundText();
     }
 
     setFont(font) {
@@ -31,7 +29,7 @@ class Text {
         return this.ctx.measureText(this.content).actualBoundingBoxRight + this.ctx.measureText(this.content).actualBoundingBoxLeft;
     }
 
-    boundText() {
+    containTextBoundary() {
         if (this.y < this.font.size) {
             this.y = this.font.size;
         }
@@ -47,28 +45,39 @@ class Text {
     }
 
     draw() {
+        this.setTextPos();
         this.ctx.fillText(this.content, this.x, this.y);
     }
 
-    newPos() {
-        const x = Math.random() * height;
-        const y = Math.random() * width;
+    setTextPos() {
+        this.x = Math.floor(Math.random() * height);
+        this.y = Math.floor(Math.random() * width);
+        this.containTextBoundary();
     }
 }
 
 const ctx = document.getElementById("watermark").getContext("2d");
 const width = 225;
 const height = 225;
-const rawr = new Text(ctx, 'rawr');
+const rawr = new Text(ctx, 'rawrrr!');
 
 
+const draw = (function() {
+    const frameInterval = 2000; //2000miliseconds
+    let previousTimestamp = 0;
 
+    const intervalHasElapsed = function(timestamp) {
+        return timestamp - previousTimestamp > frameInterval;
+    }
 
-function draw() {
-    ctx.clearRect(0,0,width,height);
-    rawr.draw();
-
-    window.requestAnimationFrame(draw);
-}
+    return function(timestamp) {
+        if (intervalHasElapsed(timestamp)) {
+            previousTimestamp = timestamp;
+            ctx.clearRect(0,0,width,height);
+            rawr.draw();
+        }
+        window.requestAnimationFrame(draw);       
+    }
+})();
 
 init();
