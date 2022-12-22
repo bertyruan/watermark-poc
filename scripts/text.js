@@ -34,8 +34,8 @@ class Text {
         this.containTextBoundary();
 
         //testing
-        updateTableDOM(this.y, 'y', height);
-        updateTableDOM(this.x, 'x', Math.floor(width - this.getTextWidth()));
+        // updateTableDOM(this.y, 'y', height);
+        // updateTableDOM(this.x, 'x', Math.floor(width - this.getTextWidth()));
     }
 
     scaleRanges(pos, axisLength) {
