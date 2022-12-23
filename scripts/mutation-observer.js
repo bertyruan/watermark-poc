@@ -3,21 +3,40 @@ const mediaContainerId = "iframe";
 const mediaContainerEl = document.getElementById(mediaContainerId);
 const mediaChildrenEl = mediaContainerEl.children;
 
+
 const config = {
     subtree: true,
     childList: true,
-    attributesFilter: ['style', 'class'],
+    attributeFilter: ['style', 'class', 'width', 'height'],
     attributeOldValue: true, //for testing
 
 }
 const observer = new MutationObserver(checkStyleChanges);
-observer.observe(mediaContainerEl, config);
+const observe = (observer) => observer.observe(mediaContainerEl, config);
+observe(observer);
 
 function checkStyleChanges(mutationList) {
     mutationList.forEach(mutation => {
         switch(mutation.type) {
             case "attributes":
                 switch(mutation.attributeName) {
+                    case "width":
+                    case "height":
+                        observer.disconnect();
+                        if(mutation.oldValue === null) {
+                            mutation.target.removeAttribute(mutation.attributeName);
+                        }
+                        if(mutation.oldValue) {
+                            mutation.target.setAttribute(mutation.attributeName, mutation.oldValue);
+                        }
+                        observe(observer);
+                        rawr.refresh();
+                        
+                        break;
+
+                    case "style":
+
+                        break;
                     case "class":
                         console.log(mutation.oldValue);
                         // if (mutation.oldValue) {
@@ -25,7 +44,7 @@ function checkStyleChanges(mutationList) {
                         //     mutation.target.classList = mutation.oldValue.split(" "); 
                         // }
                         break;
-                }
+                }   
             break;
 
             case "childList":
@@ -37,6 +56,7 @@ function checkStyleChanges(mutationList) {
                         createMediaErrorMessage();
                     }
                 }
+                break;
         }
     });
 }

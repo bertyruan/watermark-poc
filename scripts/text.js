@@ -70,6 +70,11 @@ class Text {
         }
     }
 
+    refresh() {
+        this.setFont(this.font);
+        this.draw();
+    }
+
     draw() {
         this.setTextPos();
         this.ctx.fillText(this.content, this.x, this.y);
