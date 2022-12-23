@@ -25,6 +25,35 @@ em {
     width: 300px;
 }
 
+.media-content {
+    width: 100% !important;
+    border: none !important;
+    visibility: visible !important;
+    display: block !important;
+    opacity: 1 !important;
+    max-width: 100% !important;
+    position: absolute !important;
+    height: 100% !important;
+    top: 0px !important;
+    left: 0px !important;
+    pointer-events: none !important;
+}
+
+.z-index-1 {
+    z-index: 1;
+}   
+
+.z-index-2 {
+    z-index: 2;
+}
+
+.kill-stream {
+    text-align: center;
+    padding-top: 1rem;
+    font-size: 24px;
+    color: red;
+}
+
 canvas {
     background-color: rgba(10,314,10, 0.4);
 }
