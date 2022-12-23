@@ -7,8 +7,8 @@ const mediaChildrenEl = mediaContainerEl.children;
 const config = {
     subtree: true,
     childList: true,
-    attributeFilter: ['style', 'class', 'width', 'height'],
-    attributeOldValue: true, //for testing
+    attributeFilter: ['style', 'class', 'id', 'width', 'height'],
+    attributeOldValue: true,
 
 }
 const observer = new MutationObserver(checkStyleChanges);
@@ -22,27 +22,36 @@ function checkStyleChanges(mutationList) {
                 switch(mutation.attributeName) {
                     case "width":
                     case "height":
-                        observer.disconnect();
-                        if(mutation.oldValue === null) {
-                            mutation.target.removeAttribute(mutation.attributeName);
-                        }
-                        if(mutation.oldValue) {
-                            mutation.target.setAttribute(mutation.attributeName, mutation.oldValue);
-                        }
-                        observe(observer);
-                        rawr.refresh();
-                        
+                        // is it possible to do it without disconnecting and refereshing?
+                        toggleObserver(function(mutation) {
+                            if(mutation.oldValue === null) {
+                                mutation.target.removeAttribute(mutation.attributeName);
+                            }
+                            if(mutation.oldValue) {
+                                mutation.target.setAttribute(mutation.attributeName, mutation.oldValue);
+                            }
+
+                            // resets canvas font. b.c. canvas font styles reset when height or width changes
+                            rawr.refresh();
+                        }, mutation);
                         break;
 
                     case "style":
-
+                        if(mutation.oldValue === null) {
+                            mutation.target.removeAttribute('style');
+                        }
                         break;
+                    
+                    case "id":
+                        toggleObserver(function(mutation) {
+                            mutation.target.id = mutation.oldValue; 
+                        }, mutation);
+                        break;
+                        
                     case "class":
-                        console.log(mutation.oldValue);
-                        // if (mutation.oldValue) {
-                        //     console.log(mutation.target);
-                        //     mutation.target.classList = mutation.oldValue.split(" "); 
-                        // }
+                        toggleObserver(function(mutation) {
+                            mutation.target.classList = mutation.oldValue; 
+                        }, mutation);
                         break;
                 }   
             break;
@@ -59,6 +68,12 @@ function checkStyleChanges(mutationList) {
                 break;
         }
     });
+}
+
+function toggleObserver(callback, mutation) {
+    observer.disconnect(); 
+    callback(mutation);
+    observe(observer);
 }
 
 function removeAllMediaDOMElements() {
