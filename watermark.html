@@ -13,8 +13,33 @@
         <section class="content-container">
             <h1>Cat goes <em>Rawrrr</em></h1>
             <section id="iframe">
-                <img id="media" src="cat.jpg" class="media-content z-index-1">
-                <canvas id="watermark" width="225" height="225" class="media-content z-index-2"></canvas>
+                <img id="media" src="cat.jpg" 
+                    style=" z-index: 1 !important;
+                            width: 100% !important;
+                            border: none !important;
+                            visibility: visible !important;
+                            display: block !important;
+                            opacity: 1 !important;
+                            max-width: 100% !important;
+                            position: absolute !important;
+                            height: 100% !important;
+                            top: 0px !important;
+                            left: 0px !important;
+                            pointer-events: none !important;">
+                <canvas id="watermark" width="225" height="225"
+                    style=" z-index: 2 !important;
+                            width: 100% !important;
+                            border: none !important;
+                            visibility: visible !important;
+                            display: block !important;
+                            opacity: 1 !important;
+                            max-width: 100% !important;
+                            position: absolute !important;
+                            height: 100% !important;
+                            top: 0px !important;
+                            left: 0px !important;
+                            pointer-events: none !important;"
+                ></canvas>
             </section>
         </section>
     </main>

@@ -2,7 +2,6 @@ class Text {
     constructor(ctx, content) {
         this.content = content;
         this.ctx = ctx;
-        this.ctx.textBaseline = "bottom";
         this.x = 0;
         this.y = 0;
         this.font = {
@@ -11,9 +10,12 @@ class Text {
             color: 'red'
         }
         this.padding = 5;
+        this.ctx.textBaseline = "bottom";
+
 
         this.setFont(this.font);
         this.textWidth = this.getTextWidth();
+        this.ctx.save();
     }
 
     setFont(font) {
@@ -76,6 +78,8 @@ class Text {
     }
 
     draw() {
+        this.ctx.restore();
+        this.ctx.save();
         this.changeTextPos();
         this.ctx.fillText(this.content, this.x, this.y);
     }

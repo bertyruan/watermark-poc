@@ -36,9 +36,9 @@ function checkStyleChanges(mutationList) {
                         }, mutation);
                         break;
 
-                    case "style":
+                    case "class":
                         if(mutation.oldValue === null) {
-                            mutation.target.removeAttribute('style');
+                            mutation.target.removeAttribute('class');
                         }
                         break;
                     
@@ -48,9 +48,9 @@ function checkStyleChanges(mutationList) {
                         }, mutation);
                         break;
                         
-                    case "class":
+                    case "style":
                         toggleObserver(function(mutation) {
-                            mutation.target.classList = mutation.oldValue; 
+                            mutation.target.style = mutation.oldValue; 
                         }, mutation);
                         break;
                 }   
