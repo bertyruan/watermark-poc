@@ -25,7 +25,7 @@ class Text {
         return this.ctx.measureText(this.content).actualBoundingBoxRight + this.ctx.measureText(this.content).actualBoundingBoxLeft;
     }
 
-    setTextPos() {
+    changeTextPos() {
         const adjustedWidth = width - this.getTextWidth();
         const x = Math.random() * adjustedWidth;
         const y = Math.random() * height;
@@ -72,11 +72,11 @@ class Text {
 
     refresh() {
         this.setFont(this.font);
-        this.draw();
+        this.ctx.fillText(this.content, this.x, this.y);
     }
 
     draw() {
-        this.setTextPos();
+        this.changeTextPos();
         this.ctx.fillText(this.content, this.x, this.y);
     }
 }

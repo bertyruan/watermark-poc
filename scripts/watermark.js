@@ -1,3 +1,5 @@
+//https://www.vdocipher.com/blog/2014/12/add-text-to-videos-with-watermark/
+
 const ctx = document.getElementById("watermark").getContext("2d");
 const width = 225;
 const height = 225;
